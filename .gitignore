@@ -1,0 +1,6 @@
+.idea/
+.gradle/
+out/
+build/
+*.iml
+src/main/resources/highscores.txt
