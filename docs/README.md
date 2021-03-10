@@ -1,80 +1,79 @@
-﻿
-# LPOO_78 - Tron Remake
-Nome do projeto: Tron Remake (Terminal Tron)
+﻿# LPOO_78 - Tron Remake
+Project name: Tron Remake (Terminal Tron)
 
-## Descrição: 
-Jogo inspirado no Tron, em que cada jogador é um carro e que deixa um rasto com a sua cor por onde passa. Para vencer tem que fazer com que os outros jogadores atravessem o seu rasto. 
+## Description: 
+Game inspired by Tron, in which each player is a car and that leaves a trail with its color wherever it goes. To win you have to get the other players to cross your track. 
 
 ![TronRemake](Images/TronRemakeGIF.gif)
 
-## Funcionalidades
-### Funcionalidades implementadas
-**Menu** - Um menu para aceder ao jogo, pontuações, a definições e para terminar o programa.
+## Functionalities
+### Implemented features
+**Menu** - A menu to access the game, scores, settings and to end the program.
 
-**Construção da Arena** - 2 carros e paredes nas margens do ecrã são adicionadas na construção inicial da arena.
+**Arena construction** - 2 cars and walls on the edges of the screen are added to the initial construction of the arena.
 
-**Movimento dos carros** - Os carros movem-se automaticamente de acordo com a sua orientação. O movimento automático dos carros é feito com ajuda de uma *thread* auxiliar.
+**Car movement** - Cars move automatically according to their orientation. The automatic movement of the cars is done with the help of an auxiliary * thread *.
 
-**Deteção de colisão com as paredes** - O jogo deteta e processa colisões entre carros e paredes e entre dois carros. Quando um carro colide com uma parede ou outro carro, perde uma vida e aparece numa nova posição aleatória no mapa.
+**Collision detection with walls** - The game detects and processes collisions between cars and walls and between two cars. When a car collides with a wall or another car, it loses a life and appears in a new random position on the map.
 
-**Diferentes tipos de carros** - Carros deixam rastos diferentes (linha, círculo). Implementamos uma grande variedade de cores para os carros.
+**Different types of cars** - Cars leave different tracks (line, circle). We have implemented a wide variety of colors for cars.
 
-**Rasto dos carros** - Os carros deixam um rasto de paredes pelas posições que passam. O rasto é configurável e a sua cor é igual à cor do carro que deixou o rasto.
+**Track cars** - Cars leave a track of walls by the positions they pass. The track is configurable and its color is the same as the color of the car that left the track.
 
-**Tabela de pontuações** - Tabela que guarda as pontuações de todos os jogos: o vencedor (número do jogador) e a sua pontuação (proporcional à duração do jogo).
+**Scores table** - Table that stores the scores for all games: the winner (player number) and his score (proportional to the duration of the game).
 
-Todo o código que consideramos relevante testar, está a ser testado.
+All the code that we consider relevant to test, is being tested.
 
-### Imagens de funcionalidade implementadas
-#### Menu Principal:
+### Functionality images implemented
+#### Main menu:
 
 ![MainMenu](Images/MainMenu.png)
 
-#### Menu de Opções:
+#### Options menu:
 
 ![Options](Images/Options.png)
 
-#### Três melhores pontuações de sempre:
+#### Three best scores ever:
 
 ![HighScores](Images/HighScores.png)
 
-#### Jogo:
+#### Match:
 
 ![InGame](Images/InGame.png)
 
-#### Menu de pausa:
+#### Pause menu:
 
 ![Pause](Images/Pause.png)
 
-#### Ecrã de final do jogo:
+#### End of game screen:
 
 ![GameOver](Images/GameOver.png)
 
-### Funcionalidades a implementar
+### Features to implement
 
-**Dois modos de jogo** - Um modo em que o rasto se mantém, e outro em que o rasto vai desaparecendo (segundo modo não implementado).
+**Two game modes** - One mode in which the track remains, and another in which the track disappears (second mode not implemented).
 
-**Multi-jogador** - Possibilidade de jogar com mais que 2 jogadores.
+**Multiplayer** - Possibility to play with more than 2 players.
 
-## Modelo Arquitetural
+## Architectural Model
 ### MVC - Model-View-Controller
-O modelo de arquitetura utilizado foi o MVC, um padrão arquitetural muito usado em *user interfaces*.
-O seu desenvolvimento tem-se dado de acordo com o seguinte *flow chart*, presente nos apontamentos do prof. André Restivo.
+The architectural model used was the MVC, an architectural standard widely used in *user interfaces*.
+Its development has taken place according to the following *flow chart*, present in the notes of prof. André Restivo.
 
 ![MVCFlowChart](Images/MVC.png)
 
 ## Design Patterns
-### Problema 1
-#### Descrição
-Pode-se considerar que o jogo tem vários estados diferentes. Um [estado](../src/main/java/Controller/State/GameState.java) para cada menu que o utilizador pode aceder e mais um estado para o jogo: *Main Menu*, *Options Menu*, *Pause Menu*, *Game Over*, *High Scores*, *In Game*.
+### Problem 1
+#### Description
+The game can be considered to have several different states. One [status] (../ src / main / java / Controller / State / GameState.java) for each menu that the user can access and one more status for the game: *Main Menu*, *Options Menu*, *Pause Menu*, *Game Over*, *High Scores*, *In Game*.
 #### Pattern: State
-Este padrão permite-nos lidar com todos os diferentes estados do jogo da mesma forma. A transição de estados acontece por input do utilizador, à exceção da transição *InGameState* -> *GameOverState* que é causada pelo fim do jogo. Note-se que esta padrão permite que cada estado funcione de forma independente.
-#### Implementação
-A nossa implementação em UML:
+This pattern allows us to deal with all the different states of the game in the same way. The transition of states happens through user input, except for the transition *InGameState* -> *GameOverState* which is caused by the end of the game. Note that this pattern allows each state to function independently.
+#### Implementation
+Our UML implementation:
 
 ![GameStatePattern](Images/GameState.png)
 
-As classes referentes a este *design pattern* são as seguintes:
+The classes for this *design pattern* are as follows:
 
 * [**MenuState**](../src/main/java/Controller/State/MenuState.java)
 
@@ -88,91 +87,91 @@ As classes referentes a este *design pattern* são as seguintes:
 
 * [**GameOverState**](../src/main/java/Controller/State/GameOverState.java)
 
-Por questões de simplicadade não mostramos que cada estado concreto está associado a uma vista (um objeto) diferente. O método [*draw*](../src/main/java/View/State/MenuView.java) de cada estado (à exceção do *InGameState*) chama o método *draw* da respetiva vista. Por sua vez, o estado *InGameState* deixa ao critério do [*ArenaController*](../src/main/java/Controller/ArenaController.java) quando desenhar o ecrã. A classe *ArenaController* não está representada no diagrama por questões de simplicidade, mas é um objeto associado ao *InGameState*, que como o seu nome indica controla o que acontece no jogo.
-#### Consequências
-Uma das consequências deste *Design Pattern* é que o programa siga uma máquina de estados. A máquina de estados resultante:
+For the sake of simplicity, we do not show that each concrete state is associated with a different view (an object). The method [*draw*](../src/main/java/View/State/MenuView.java) of each state (with the exception of *InGameState*) calls the *draw* method of the respective view. In turn, the status *InGameState* leaves the discretion of [*ArenaController*](../src/main/java/Controller/ArenaController.java) when designing the screen. The *ArenaController* class is not represented in the diagram for simplicity, but it is an object associated with *InGameState*, which as its name indicates controls what happens in the game.
+#### Consequences
+One of the consequences of this *Design Pattern* is that the program follows a state machine. The resulting state machine:
 
 ![GameStateDiagram](Images/GameStateDiagram.png)
 
-Como já foi referido, ao nível da aplicação, não distinguimos estados diferentes. Logo, tratamos todos os estados como iguais. Isto faz com que tudo relacionado com o funcionamento de cada estado tenha de estar dentro do seu objeto-estado e da sua vista. Desta forma, este padrão contribui para que o nosso programa cumpra o princípio *Single Responsibility* dos princípios *SOLID*.
+As already mentioned, at the application level, we do not distinguish different states. Therefore, we treat all states as equal. This means that everything related to the functioning of each state must be within its object-state and its view. In this way, this standard helps our program to comply with the *Single Responsibility* principle of the *SOLID* principles.
 
-Como o funcionamento de todos os estados é independente, para adicionar um novo estado, um novo menu por exemplo, podemos fazê-lo sem alterar código dos outros estados, mas apenas adicionando um objeto-estado, uma vista, e pelo menos uma transição. Assim, este padrão contribui para o princípio *Open Closed* dos princípios *SOLID*.
+As the operation of all states is independent, to add a new state, a new menu for example, we can do it without changing the code of the other states, but just adding an object-state, a view, and at least one transition. Thus, this standard contributes to the *Open Closed* principle of the *SOLID* principles.
 
-### Problema 2
-#### Descrição
-Devido à fragmentação do jogo em várias classes, é necessário manter consistência entre os diferentes objetos de modo a que seja possível representar a *vista* da arena a partir dos dados da *ArenaModel*. Assim, de forma a não desenhar a vista sem que lhe tenham sido feitas modificações, é necessária a implementação de um tipo de observador da *View*. Assim, apenas é necessário desenhar de novo a *View* quando de facto houveram mudanças à *ArenaModel*, ou seja, quando os observadores são notificados de alguma mudança aos objedos da classe observada.
+### Problem 2
+#### Description
+Due to the fragmentation of the game into several classes, it is necessary to maintain consistency between the different objects so that it is possible to represent the *view* of the arena from the data of the *ArenaModel*. Thus, in order not to draw the view without modifications, it is necessary to implement a type of *View* observer. Thus, it is only necessary to redesign *View* when in fact there have been changes to *ArenaModel*, that is, when observers are notified of any changes to the objects of the observed class.
 #### Pattern: Observer
-Este padrão implementa uma classe abstrata de objetos que serão observados (*Observable*) por objetos que implementam uma interface *Observer*. Como os nomes indicam, a classe *Observable* vai ser "observada" por um objeto que implemente a interface *Observer*. A utilização deste *design pattern* permite-nos tratar diferentes observadores da mesma forma, embora tenhamos apenas implementado um objeto da classe *Observer*.
-#### Implementação
-A nossa implementação em UML: 
+This standard implements an abstract class of objects that will be observed (*Observable*) by objects that implement an *Observer* interface. As the names indicate, the *Observable* class will be "observed" by an object that implements the *Observer* interface. The use of this *design pattern* allows us to treat different observers in the same way, although we have only implemented an object of the class *Observer*.
+#### Implementation
+Our UML implementation:
 
 ![ObserverPattern](Images/ObserverPattern.png)
 
-A implementação do padrão no nosso código foi feita da seguinte forma: Acrescentamos uma interface [*Observer*](../src/main/java/Observer/Observer.java) e uma classe abstrata [*Observable*](../src/main/java/Observer/Observable.java). No contexto do nosso problema, fizemos da classe *ArenaModel* um classe derivada de *Observable* e a classe *ArenaView* passou a implementar a interface *Observer*. Para além disto, tivemos também de adicionar a *ArenaView* aos *observers* da *ArenaModel*. Assim, sempre que fazemos uma alteração aos objetos pertencentes à classe *ArenaModel*, notificamos os observadores (neste caso o único observador é a *ArenaView*) e cada um vai adaptar a sua representação dos dados. No contexto do nosso problema, a *ArenaView* é notificada sempre que os carros avançam ou os carros mudam de direção.
+The implementation of the pattern in our code was done as follows: We added an interface [*Observer*] (../src/main/java/Observer/Observer.java) and an abstract class [*Observable*] (../src/main/java/Observer/Observable.java). In the context of our problem, we made the *ArenaModel* class a class derived from *Observable* and the *ArenaView* class started to implement the *Observer* interface. In addition to this, we also had to add *ArenaView* to *observers* of *ArenaModel*. Thus, whenever we make a change to the objects belonging to the *ArenaModel* class, we notify the observers (in this case the only observer is *ArenaView*) and each one will adapt their data representation. In the context of our problem, *ArenaView* is notified whenever cars advance or cars change direction.
 
-#### Consequências
-Aplicar este padrão ajuda a que o código cumpra o princípio *Open Closed* dos princípios *SOLID*. Isto acontece porque se quisermos adicionar um novo observador da classe *ArenaModel*, seria simples de o fazer: apenas teríamos de criar uma nova classe que implementasse a interface *Observer* e que tivesse algum tipo de vista configurada. Também precisávamos de adicionar um objeto da nova classe aos observadores da *ArenaModel*. Desta forma, para adicionar novas funcionalidades ao programa, neste caso interfaces gráficas diferentes, não teríamos de alterar código já feito, mas apenas adicionar novo código.
+#### Consequences
+Applying this standard helps the code comply with the *Open Closed* principle of the *SOLID* principles. This is because if we want to add a new observer of the *ArenaModel* class, it would be simple to do: we would just have to create a new class that would implement the *Observer* interface and that had some kind of configured view. We also needed to add an object of the new class to the observers of *ArenaModel*. Thus, to add new features to the program, in this case different graphical interfaces, we would not have to change code already made, but just add new code.
 
-## Code Smells/Problemas de desenvolvimento
-### Problema 1 - *Code Smell*
-#### Descrição
-Quando desenhamos um carro, precisamos de saber se é o carro do jogador 1 ou do jogador 2 para podermos utilizar a cor certa. Podemos extender este problema também para o desenho das paredes. Este problema resultou num *switch statement* complexo.
+## Code Smells / Development issues
+### Problem 1 - *Code Smell*
+#### Description
+When designing a car, we need to know if it is the car of player 1 or player 2 so that we can use the right color. We can extend this problem to the design of the walls as well. This problem resulted in a complex *switch statement*.
 #### Refactor: Replace Conditional with Polymorphism
-Adicionamos um atributo *color* a [*Car*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Model/Car.java#L71) e a [*Wall*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Model/Wall.java#L12). Esta resolução adiciona o método *getColor()* a ambos os objetos permitindo-nos obter a cor a utilizar ao desenhar os objetos.
-### Problema 2 - *Code Smell*
-#### Descrição
-Na package View, tinhamos duas classes que foram retiradas chamadas *CarView* e *WallView*. Ambas estas classes tinham apenas 1 método *drawCar* e *drawWall* respetivamente. Não tinham nenhum atributo, apenas delegavam trabalho. Portanto, estávamos perante um *Middle Man*.
+We added an *color* attribute to [*Car*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Model/Car.java#L71) and the [*Wall*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Model/Wall.java#L12). This resolution adds the *getColor()* method to both objects allowing us to obtain the color to be used when drawing the objects.
+### Problem 2 - *Code Smell*
+#### Description
+In the View package, we had two classes that were removed called *CarView* and *WallView*. Both of these classes had only 1 method *drawCar* and *drawWall* respectively. They had no attributes, they just delegated work. So we were looking at a *Middle Man*.
 #### Refactor: Remove Middle Man
-Face a este *code smell* passamos as funções *drawCar* e *drawWall* para a classe [*ArenaView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L106), onde toda a arena é desenhada no ecrã. As classes *CarView* e *WallView* foram eliminadas.
-### Problema 3 - *Code Smell*
-#### Descrição
-A função canCarMove verifica se uma posição colide com alguma parede da *arena*. Pertencia a uma classe CarController. Ao contrário do que o nome indica, não acede a dados de um objeto *Car*. Estávamos perante o *code smell* "Feature Envy".
+In view of this *code smell* we passed the functions *drawCar* and *drawWall* to the class [*ArenaView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/ main/java/View/ArenaView.java#L106), where the entire arena is drawn on the screen. The *CarView* and *WallView* classes have been eliminated.
+### Problem 3 - *Code Smell*
+#### Description
+The canCarMove function checks whether a position collides with any *arena* wall. It belonged to a CarController class. Contrary to what the name implies, it does not access data from a *Car* object. We were faced with the *code smell* "Feature Envy".
 #### Refactor: Move Method
-A função passou a pertencer à classe *PlayerPositionUpdater*. Como CarController só tinha esta função, eliminamos a classe.
+The function now belongs to the *PlayerPositionUpdater* class. As CarController only had this function, we eliminated the class.
 
-**Atualização para a versão final**: A função canCarMove passou a ser a função [*checkCollision*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Controller/PlayerPositionUpdater.java#L31) da classe *PlayerPositionUpdater*. A função passou a distinguir tipos diferentes de colisões: colisões entre carros e colisões entre um carro e uma parede.
-### Problema 4 - Problema de desenvolvimento
-#### Descrição - Acesso Multi-Thread a memória
-No estado *InGameState*, o programa tem duas *threads* a correr. Uma *thread* está a ler inputs do utilizador para mudar as direções dos carros e a outra *thread* está a atualizar as posições dos carros dependendo das orientações respetivas a cada carro. Esta forma de "trabalho" resultava em *crashs* aleatórios do programa por acessos à mesma memória em simultâneo.
-#### Solução - Implementação de um Mutex
-Para fazermos sincronização das threads implementamos um *mutex*, a classe [*MutexSyncronize*](../src/main/java/Controller/MutexSyncronize.java). Funciona de uma forma muito simples: a classe tem um indicador *static* que representa o bloqueio do *mutex*. Antes de todos os acessos a memória de cada *thread* bloqueamos o *mutex* e quando deixamos de aceder a memória, desbloquamos o *mutex*. Repare-se que se o *mutex* estiver bloqueado quando o vamos aceder, a *thread* entrará num [ciclo vazio](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Controller/MutexSyncronize.java#L8) até o *mutex* ser desbloqueado pela outra *thread*. Desta forma evitámos o acesso simultâneo à mesma memória, e o programa deixou de crashar. 
-### Problema 5 - *Code Smell*
-#### Descrição
-Nos estados-menu em que a interface com o utilizador é feita em modo de navegação (*MainMenu*, *OptionsMenu*, *PauseMenu*), tivemos problemas com a maneira como implementavamos a transição de opção selecionada. Inicialmente abordamos este problema com *switch statements* e portanto estavamos perante um *code smell*.
+**Update to the final version**: The canCarMove function has become the [*checkCollision*] function (https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/ java/Controller/PlayerPositionUpdater.java#L31) of the *PlayerPositionUpdater* class. The function started to distinguish different types of collisions: collisions between cars and collisions between a car and a wall.
+### Problem 4 - Development problem
+#### Description - Multi-Thread Memory Access
+In the *InGameState* state, the program has two *threads* running. One *thread* is reading user input to change the directions of the cars and the other *thread* is updating the positions of the cars depending on the respective directions for each car. This form of "work" resulted in random *crashes* of the program by accessing the same memory simultaneously.
+#### Solution - Implementing a Mutex
+In order to synchronize the threads, we implemented a *mutex*, the class [*MutexSyncronize*](../src/main/java/Controller/MutexSyncronize.java). It works in a very simple way: the class has a *static* indicator that represents the *mutex* block. Before all accesses the memory of each *thread* we block the *mutex* and when we stop accessing the memory, we unlock the *mutex*. Note that if *mutex* is blocked when we access it, *thread* will enter an [empty cycle](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Controller/MutexSyncronize.java#L8) until *mutex* is unlocked by the other *thread*. In this way, we avoided simultaneous access to the same memory, and the program stopped crashing.
+### Problem 5 - *Code Smell*
+#### Description
+In the menu states where the user interface is done in navigation mode (*MainMenu*, *OptionsMenu*, *PauseMenu*), we had problems with the way we implemented the selected option transition. We initially approached this problem with *switch statements* and therefore we were faced with a *code smell*.
 #### Refactor: Extract Method
-O refactor mais parecido com o que fizemos é o *Extract Method*, uma vez que resolvemos o problema com uma expressão matemática e substituimos o *switch statement* por dois [métodos](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/MenuView.java#L23). Considerando que sabemos qual a opção selecionada com um número inteiro (vamos chamar-lhe *selected*) que o seu valor máximo varia com o número de opções que um menu tem, a função matemática funciona da seguinte forma: se queremos subir no menu, vamos decrementar *selected* e atribuir a si mesmo o valor do resto da divisão pelo número de opções do menu. Para descermos no menu, fazemos o mesmo processo à exceção de que incrementamos *selected*.
+The refactor most similar to what we did is the *Extract Method*, since we solved the problem with a mathematical expression and replaced the *switch statement* with two [methods](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/MenuView.java#L23). Considering that we know which option is selected with an integer (we will call it *selected*) that its maximum value varies with the number of options that a menu has, the mathematical function works as follows: if we want to go up in the menu, let's decrement *selected* and assign yourself the value of the rest of the division by the number of menu options. To get down in the menu, we do the same process except that we increment *selected*.
 
-Para o menu de [opções](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/OptionsView.java) temos 4 dimensões deste problema: navegamos sobre qual opção mudar, escolha da cor do jogador 1, escolha da cor do jogador 2 e a escolha dos rastos de cada jogador (como só há dois diferentes, se alterarmos um deles o outro será escolhido por exclusão de partes). 
+For the [options menu](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/OptionsView.java) we have 4 dimensions of this problem: we navigate about which option to change, choosing the color of player 1, choosing the color of player 2 and choosing the tracks for each player (as there are only two different ones, if we change one of them the other one will be chosen by excluding parts).
 
-**Nota**: Matematicamente o resto da divisão de um número negativo por um número positivo resulta num número positivo, mas a implementação do *Java* não respeita essa regra. Para isso tivemos de ser nós a implementar esse detalhe.
-### Problema 6 - *Code Smell*
-#### Descrição
-Ao implementar o padrão *State* que foi explicado anteriormente, reparamos que era necessário que os dados do jogo não estivessem só presentes para estado *InGameState*, uma vez que se isso acontecesse quando transitavamos para o estado *PauseState* quando voltavamos a transitar para o estado do jogo, o jogo recomeçava. Face a este problema, decidimos que fosse pertinente que os dados do jogo (classe *ArenaModel*) estivessem associados à classe *Game* e assim o jogo é "movido" entre todos os estados. No entanto, deparamo-nos com vários *code smells* do tipo *Data Clumps*. A classe do estado do jogo estava associada à classe *Game* para além de estar associada à vista e aos dados do jogo. A vista e os dados do jogo obtiam-se a partir de *getters* da classe *Game*. Estavamos perante isto:
+**Note**: Mathematically the rest of the division of a negative number by a positive number results in a positive number, but the implementation of *Java* does not respect this rule. For that, we had to implement this detail.
+### Problem 6 - *Code Smell*
+#### Description
+When implementing the *State* standard that was explained earlier, we noticed that it was necessary that the game data were not only present for the *InGameState* state, since if that happened when we transitioned to the *PauseState* state when we switched back to the state of the game, the game resumed. In view of this problem, we decided that it was pertinent that the game data (class *ArenaModel*) were associated with the class *Game* and thus the game is "moved" between all states. However, we come across several *code smells* of the type *Data Clumps*. The game state class was associated with the *Game* class in addition to being associated with the game view and data. The game view and data were obtained from *getters* of the *Game* class. We were faced with this:
 
-![Problema6](Images/Problema6.png)
+! [Problem6](Images/Problema6.png)
 
 #### Refactor: *Introduce Parameter Object*
-A nossa solução a este problema foi a seguinte:
+Our solution to this problem was as follows:
 
-![Solução6](Images/Solução6.png)
+! [Solution6](Images/Solução6.png)
 
-Assim, deixamos de ter objetos repetidos, e o código passa a ser mais "alterável", no sentido em que para o eventual caso de se substituirmos algum dos objetos *ArenaModel* ou *ArenaView* apenas temos de substituir o objeto na classe *Game*.
-### Problema 7 - Problema de desenvolvimento
-#### Descrição - Contagem de tempo apenas em estados especifícos
-Para implementar a funcionalidade de mostrar o tempo decorrido desde o início do jogo, tivemos de recorrer à classe *Date* pertencente ao *Java*. O problema apareceu quando reparamos que só queríamos que o programa incrementasse o contador de tempo decorrido quando o estado do programa fosse *InGameState*. Começávamos a contar o tempo decorrido quando o construíamos o objeto *ArenaModel*, e como *ArenaModel* está associado à classe *Game* e os objetos *Game* e *ArenaModel* são construidos no início do jogo, em prática, o tempo decorrido era incrementado quando estávamos em qualquer estado do jogo.
-#### Solução - Implementação de um objeto *Timer*
-A nossa abordagem a este problema, foi acrescentar uma classe [*Timer*](../src/main/java/Model/Timer.java) que permite interromper e retomar a contagem do tempo com dois métodos *start* e *stop*. Esta classe foi associada à classe *ArenaModel*, uma vez que consideramos que o tempo decorrido desde o início do jogo é um "dado" do jogo. 
-### Problema 8 - *Code Smell*
-#### Descrição
-Nas fases inicais do desenvolvimento do jogo, pensamos que fosse pertinente que o carácter pelo qual uma parede é representada fizesse parte do objeto *Wall*. Mais tarde, mudamos de ideias fizemos com que o carácter dependesse do "contexto" em que a parede está inserida. Se for uma parede de limite da arena este caracter é representada por um espaço, se for a parede do rasto de um carro, depende das configurações do carro. Ao implementar esta ideia, deixamos as paredes com um método *getWall* que retornava sempre o carácter de uma parede-limite.
+Thus, we no longer have repeated objects, and the code becomes more "changeable", in the sense that for the eventual case of replacing any of the *ArenaModel* or *ArenaView* objects, we only have to replace the object in the *Game class*.
+### Problem 7 - Development problem
+#### Description - Time counting only in specific states
+To implement the functionality to show the time elapsed since the beginning of the game, we had to resort to the *Date* class belonging to *Java*. The problem arose when we noticed that we just wanted the program to increase the elapsed time counter when the program's state was *InGameState*. We started counting the elapsed time when we built the *ArenaModel* object, and since *ArenaModel* is associated with the *Game* class and the *Game* and *ArenaModel* objects are built at the beginning of the game, in practice, the elapsed time it was incremented when we were in any state of the game.
+#### Solution - Implementation of a *Timer* object
+Our approach to this problem was to add a class [*Timer*](../src/main/java/Model/Timer.java) that allows you to interrupt and resume the timing with two methods *start* and *stop*. This class was associated with the *ArenaModel* class, since we consider that the time that has elapsed since the beginning of the game is a "dice" of the game.
+### Problem 8 - *Code Smell*
+#### Description
+In the early stages of the game's development, we thought it was pertinent for the character by which a wall is represented to be part of the object *Wall*. Later, we changed our mind and made the character depend on the "context" in which the wall is inserted. If it is a boundary wall of the arena this character is represented by a space, if it is the wall of a car track, it depends on the car's settings. When implementing this idea, we left the walls with a *getWall* method that always returned the character of a boundary wall.
 #### Refactor: *Remove Method*
-O método *getWall* foi removido e alteramos a representação das paredes-limite para que fossem representadas pelo carácter constante [' '](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L120). As paredes dos carros passaram a ser representada em conjunto com os carros para terem acesso ao [tipo de parede](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L112) do rasto do carro.
+The *getWall* method was removed and we changed the representation of the boundary walls so that they were represented by the constant character [''](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src /main/java/View/ArenaView.java#L120). Car walls started to be represented together with cars to have access to [wall type](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L112) from the car's track.
 
-## Potenciais *Code Smells*
-### 1. *Switch Statements* de leitura e processamento de teclas do utilizador
-A leitura de input do teclado e o seu processamento, são feitos com *switch statements*. Isto significa, que se quisermos adicionar novos controlos ao jogo teremos de alterar código espalhado por várias classes, violando o princípio *Open Closed* dos princípios *SOLID*. Nessa situação, potencialmente, vamos gerar um *shotgun surgery code smell*. No entanto, consideramos estes *switch statements* imprescindíveis.
+## Potential *Code Smells*
+### 1. *Switch Statements* for reading and processing user keys
+Reading keyboard input and processing it is done with *switch statements*. This means that if we want to add new controls to the game we will have to change code spread across several classes, violating the *Open Closed* principle of the *SOLID* principles. In this situation, we are potentially going to generate a *shotgun surgery code smell*. However, we consider these *switch statements* to be essential.
 
-A leitura de input do teclado é feita nas classes:
+Reading keyboard input is done in the classes:
 
 * [*ArenaView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L55)
 
@@ -187,30 +186,30 @@ A leitura de input do teclado é feita nas classes:
 * [*GameOverView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/PauseView.java#L26)
 
 
-### 2. *Selected* do problema 5
-Embora tenhamos resolvido o problema dos *switch statements* para a navegação do menu, quando selecionamos uma opção (carregar no Enter) continuamos a ter *switch statements*. A solução ideal para isto seria implementar um outro padrão *State*: os estados diferentes seriam as várias opções que podem ser selecionadas. Não implementamos esta solução porque consideramos que seria "matar uma mosca com uma bala de canhão". Adicionariamos complexidade ao código e seria uma solução bastante menos legível que a nossa implementação. No entanto, promoveria os princípios *Single Responsibility* e *Open Closed* dos princípios *SOLID*. 
+### 2. *Selected* from problem 5
+Although we have solved the problem of *switch statements* for menu navigation, when we select an option (press Enter) we still have *switch statements*. The ideal solution for this would be to implement another *State* standard: the different states would be the various options that can be selected. We did not implement this solution because we thought it would be "killing a fly with a cannonball". We would add complexity to the code and it would be a much less readable solution than our implementation. However, it would promote the *Single Responsibility* and *Open Closed* principles of the *SOLID* principles.
 
-*Switch statements* ao carregar no *Enter*:
+* *Switch statements* by pressing *Enter*:
 
 * [*MainMenuView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/MainMenuView.java#L36)
 
 * [*PauseMenu*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/PauseView.java#L39)
 
-* Problema de 4 dimensões - [*OptionsView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/OptionsView.java#L60)
+* 4-dimensional problem - [*OptionsView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/OptionsView.java#L60)
 
 ## Testing
-Cobertura dos testes obtida pelo *IntelliJ*.
+Test coverage obtained by *IntelliJ*.
 
 ![Coverage](Images/IntelliJCoverage.png)
 
-Link para o *IntelliJ testing report* -> https://github.com/FEUP-LPOO/lpoo-2020-g78/tree/master/docs/IntelliJ%20Testing%20Report
+Link to *IntelliJ testing report* -> https://github.com/FEUP-LPOO/lpoo-2020-g78/tree/master/docs/IntelliJ%20Testing%20Report
 
-Usámos também o *Pitest* para verificar a robustez dos testes criados.
+We also used *Pitest* to check the robustness of the tests created.
 
 ![CoveragePitest](Images/MutationTesting.png)
 
-Link para *mutation testing report* -> https://github.com/FEUP-LPOO/lpoo-2020-g78/tree/master/docs/Mutation%20Testing%20Report
+Link to *mutation testing report* -> https://github.com/FEUP-LPOO/lpoo-2020-g78/tree/master/docs/Mutation%20Testing%20Report
 
-## Auto-avaliação
+## Self-evaluation
 50% - João Castro Pinto
 50% - Miguel Silva

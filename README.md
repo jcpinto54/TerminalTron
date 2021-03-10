@@ -1,7 +1,9 @@
-# LPOO_78 - Tron Remake
-Nome do projeto: Tron Remake (Terminal Tron)
+###### All the documentation of this project was translated to Portuguese with Google Translate. I do not guarantee a mistake-free documentation :)
 
-## Descrição: 
-Jogo inspirado no Tron, em que cada jogador é um carro e que deixa um rasto com a sua cor por onde passa. Para vencer tem que fazer com que os outros jogadores atravessem o seu rasto. 
+# LPOO_78 - Tron Remake
+Project name: Tron Remake (Terminal Tron)
+
+## Description: 
+Game inspired by Tron, in which each player is a car and that leaves a trail with its color wherever it goes. To win you have to get the other players to cross your track. 
 
 ![TronRemake](docs/Images/TronRemakeGIF.gif)
