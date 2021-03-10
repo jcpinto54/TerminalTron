@@ -12,7 +12,7 @@ Game inspired by Tron, in which each player is a car and that leaves a trail wit
 
 **Arena construction** - 2 cars and walls on the edges of the screen are added to the initial construction of the arena.
 
-**Car movement** - Cars move automatically according to their orientation. The automatic movement of the cars is done with the help of an auxiliary * thread *.
+**Car movement** - Cars move automatically according to their orientation. The automatic movement of the cars is done with the help of an auxiliary *thread*.
 
 **Collision detection with walls** - The game detects and processes collisions between cars and walls and between two cars. When a car collides with a wall or another car, it loses a life and appears in a new random position on the map.
 
@@ -65,7 +65,7 @@ Its development has taken place according to the following *flow chart*, present
 ## Design Patterns
 ### Problem 1
 #### Description
-The game can be considered to have several different states. One [status] (../ src / main / java / Controller / State / GameState.java) for each menu that the user can access and one more status for the game: *Main Menu*, *Options Menu*, *Pause Menu*, *Game Over*, *High Scores*, *In Game*.
+The game can be considered to have several different states. One [status](../src/main/java/Controller/State/GameState.java) for each menu that the user can access and one more status for the game: *Main Menu*, *Options Menu*, *Pause Menu*, *Game Over*, *High Scores*, *In Game*.
 #### Pattern: State
 This pattern allows us to deal with all the different states of the game in the same way. The transition of states happens through user input, except for the transition *InGameState* -> *GameOverState* which is caused by the end of the game. Note that this pattern allows each state to function independently.
 #### Implementation
@@ -107,7 +107,7 @@ Our UML implementation:
 
 ![ObserverPattern](Images/ObserverPattern.png)
 
-The implementation of the pattern in our code was done as follows: We added an interface [*Observer*] (../src/main/java/Observer/Observer.java) and an abstract class [*Observable*] (../src/main/java/Observer/Observable.java). In the context of our problem, we made the *ArenaModel* class a class derived from *Observable* and the *ArenaView* class started to implement the *Observer* interface. In addition to this, we also had to add *ArenaView* to *observers* of *ArenaModel*. Thus, whenever we make a change to the objects belonging to the *ArenaModel* class, we notify the observers (in this case the only observer is *ArenaView*) and each one will adapt their data representation. In the context of our problem, *ArenaView* is notified whenever cars advance or cars change direction.
+The implementation of the pattern in our code was done as follows: We added an interface [*Observer*](../src/main/java/Observer/Observer.java) and an abstract class [*Observable*](../src/main/java/Observer/Observable.java). In the context of our problem, we made the *ArenaModel* class a class derived from *Observable* and the *ArenaView* class started to implement the *Observer* interface. In addition to this, we also had to add *ArenaView* to *observers* of *ArenaModel*. Thus, whenever we make a change to the objects belonging to the *ArenaModel* class, we notify the observers (in this case the only observer is *ArenaView*) and each one will adapt their data representation. In the context of our problem, *ArenaView* is notified whenever cars advance or cars change direction.
 
 #### Consequences
 Applying this standard helps the code comply with the *Open Closed* principle of the *SOLID* principles. This is because if we want to add a new observer of the *ArenaModel* class, it would be simple to do: we would just have to create a new class that would implement the *Observer* interface and that had some kind of configured view. We also needed to add an object of the new class to the observers of *ArenaModel*. Thus, to add new features to the program, in this case different graphical interfaces, we would not have to change code already made, but just add new code.
@@ -122,14 +122,14 @@ We added an *color* attribute to [*Car*](https://github.com/FEUP-LPOO/lpoo-2020-
 #### Description
 In the View package, we had two classes that were removed called *CarView* and *WallView*. Both of these classes had only 1 method *drawCar* and *drawWall* respectively. They had no attributes, they just delegated work. So we were looking at a *Middle Man*.
 #### Refactor: Remove Middle Man
-In view of this *code smell* we passed the functions *drawCar* and *drawWall* to the class [*ArenaView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/ main/java/View/ArenaView.java#L106), where the entire arena is drawn on the screen. The *CarView* and *WallView* classes have been eliminated.
+In view of this *code smell* we passed the functions *drawCar* and *drawWall* to the class [*ArenaView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L106), where the entire arena is drawn on the screen. The *CarView* and *WallView* classes have been eliminated.
 ### Problem 3 - *Code Smell*
 #### Description
 The canCarMove function checks whether a position collides with any *arena* wall. It belonged to a CarController class. Contrary to what the name implies, it does not access data from a *Car* object. We were faced with the *code smell* "Feature Envy".
 #### Refactor: Move Method
 The function now belongs to the *PlayerPositionUpdater* class. As CarController only had this function, we eliminated the class.
 
-**Update to the final version**: The canCarMove function has become the [*checkCollision*] function (https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/ java/Controller/PlayerPositionUpdater.java#L31) of the *PlayerPositionUpdater* class. The function started to distinguish different types of collisions: collisions between cars and collisions between a car and a wall.
+**Update to the final version**: The canCarMove function has become the [*checkCollision*] function (https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Controller/PlayerPositionUpdater.java#L31) of the *PlayerPositionUpdater* class. The function started to distinguish different types of collisions: collisions between cars and collisions between a car and a wall.
 ### Problem 4 - Development problem
 #### Description - Multi-Thread Memory Access
 In the *InGameState* state, the program has two *threads* running. One *thread* is reading user input to change the directions of the cars and the other *thread* is updating the positions of the cars depending on the respective directions for each car. This form of "work" resulted in random *crashes* of the program by accessing the same memory simultaneously.
@@ -148,12 +148,12 @@ For the [options menu](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/sr
 #### Description
 When implementing the *State* standard that was explained earlier, we noticed that it was necessary that the game data were not only present for the *InGameState* state, since if that happened when we transitioned to the *PauseState* state when we switched back to the state of the game, the game resumed. In view of this problem, we decided that it was pertinent that the game data (class *ArenaModel*) were associated with the class *Game* and thus the game is "moved" between all states. However, we come across several *code smells* of the type *Data Clumps*. The game state class was associated with the *Game* class in addition to being associated with the game view and data. The game view and data were obtained from *getters* of the *Game* class. We were faced with this:
 
-! [Problem6](Images/Problema6.png)
+![Problem6](Images/Problema6.png)
 
 #### Refactor: *Introduce Parameter Object*
 Our solution to this problem was as follows:
 
-! [Solution6](Images/Solução6.png)
+![Solution6](Images/Solução6.png)
 
 Thus, we no longer have repeated objects, and the code becomes more "changeable", in the sense that for the eventual case of replacing any of the *ArenaModel* or *ArenaView* objects, we only have to replace the object in the *Game class*.
 ### Problem 7 - Development problem
@@ -165,7 +165,7 @@ Our approach to this problem was to add a class [*Timer*](../src/main/java/Model
 #### Description
 In the early stages of the game's development, we thought it was pertinent for the character by which a wall is represented to be part of the object *Wall*. Later, we changed our mind and made the character depend on the "context" in which the wall is inserted. If it is a boundary wall of the arena this character is represented by a space, if it is the wall of a car track, it depends on the car's settings. When implementing this idea, we left the walls with a *getWall* method that always returned the character of a boundary wall.
 #### Refactor: *Remove Method*
-The *getWall* method was removed and we changed the representation of the boundary walls so that they were represented by the constant character [''](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src /main/java/View/ArenaView.java#L120). Car walls started to be represented together with cars to have access to [wall type](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L112) from the car's track.
+The *getWall* method was removed and we changed the representation of the boundary walls so that they were represented by the constant character [''](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L120). Car walls started to be represented together with cars to have access to [wall type](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/ArenaView.java#L112) from the car's track.
 
 ## Potential *Code Smells*
 ### 1. *Switch Statements* for reading and processing user keys
@@ -189,7 +189,7 @@ Reading keyboard input is done in the classes:
 ### 2. *Selected* from problem 5
 Although we have solved the problem of *switch statements* for menu navigation, when we select an option (press Enter) we still have *switch statements*. The ideal solution for this would be to implement another *State* standard: the different states would be the various options that can be selected. We did not implement this solution because we thought it would be "killing a fly with a cannonball". We would add complexity to the code and it would be a much less readable solution than our implementation. However, it would promote the *Single Responsibility* and *Open Closed* principles of the *SOLID* principles.
 
-* *Switch statements* by pressing *Enter*:
+*Switch statements* by pressing *Enter*:
 
 * [*MainMenuView*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/View/State/MainMenuView.java#L36)
 
