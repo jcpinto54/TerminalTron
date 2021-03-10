@@ -129,7 +129,7 @@ The canCarMove function checks whether a position collides with any *arena* wall
 #### Refactor: Move Method
 The function now belongs to the *PlayerPositionUpdater* class. As CarController only had this function, we eliminated the class.
 
-**Update to the final version**: The canCarMove function has become the [*checkCollision*] function (https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Controller/PlayerPositionUpdater.java#L31) of the *PlayerPositionUpdater* class. The function started to distinguish different types of collisions: collisions between cars and collisions between a car and a wall.
+**Update to the final version**: The canCarMove function has become the function [*checkCollision*](https://github.com/FEUP-LPOO/lpoo-2020-g78/blob/master/src/main/java/Controller/PlayerPositionUpdater.java#L31) of the *PlayerPositionUpdater* class. The function started to distinguish different types of collisions: collisions between cars and collisions between a car and a wall.
 ### Problem 4 - Development problem
 #### Description - Multi-Thread Memory Access
 In the *InGameState* state, the program has two *threads* running. One *thread* is reading user input to change the directions of the cars and the other *thread* is updating the positions of the cars depending on the respective directions for each car. This form of "work" resulted in random *crashes* of the program by accessing the same memory simultaneously.
